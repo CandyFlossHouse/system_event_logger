@@ -22,15 +22,6 @@ class LoadArgument():
     def __del__(self):
         self.__logger_data.__del__()
         
-    def process(self, argv):
-        print argv
-        if argv.login is not None:
-            self.__record_state_login()
-        elif argv.logout is not None:
-            self.__record_state_logout()
-        elif argv.show is not None:
-            self.print_event_data()
-        
     # 初始化数据库
     def __init_db__(self):
         self.__logger_data = LoggerData()
@@ -47,12 +38,6 @@ class LoadArgument():
             self.print_info()
         else:
             return arg_result[arg[1]]()
-#        parser = argparse.ArgumentParser(description="System Event Logger")
-#        parser.add_argument(self.ARGV_LOGIN,      "--login", nargs="?",  help="login the System Event.")
-#        parser.add_argument(self.ARGV_LOGOUT,     "--logout", nargs="?", help="logout the System Event.")
-#        parser.add_argument(self.ARGV_PRINT_DATA, "--show", nargs="?",   help="show all the records.")
-#        args = parser.parse_args(arg)
-#        return args
         
     # 开启的时候
     def __record_state_login(self):
@@ -72,12 +57,13 @@ class LoadArgument():
             print "ID=%d\tState=%s\tTime=%s" % (e[0], self.__get_state(e[1]), e[2])
         print '----End----'
     
+    # 转换状态
     def __get_state(self, state):  
         if state == self.EVENT_SYSTEM_ON:
             return "Login"
         if state == self.EVENT_SYSTEM_OFF:
             return "Logout"
-        
+    # 打印提示信息
     def print_info(self):
         print 'help:'
         print '-i : login the system.'
